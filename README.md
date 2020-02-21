@@ -11,6 +11,7 @@ Detect color usage (either `Color(...)` or `Color primary = ...`):
 
 - See frequency of hardcoded colors. Consider using a variable for better maintainability and multi-theme support.
 - Detect colors used in few places. When Chrome was redesigned, the team discovered it had [95 shades of grey](https://medium.com/@san_toki/unboxing-chrome-f6af7b8161a2). They managed to reduce to 8. Material Design Theme [supports 12 categories of color](https://material.io/design/material-theming/implementing-your-theme.html). Try to keep it simple(r).
+- See how detected colors contrast with black or white. It follows [WACG recommendations](https://www.w3.org/WAI/WCAG21/Understanding/contrast-minimum.html) and is useful to see if a heavily used color doesn't have enough contrast with black or white.
 
 Detect class size (counts the number of `;` inside each class):
 - Inspired by Detekt [LongMethod](https://arturbosch.github.io/detekt/complexity.html#longmethod).
@@ -31,19 +32,24 @@ USAGE:
 $ ./resourceranker.kts <project directory> [OPTIONS]
 $ kotlinc -script resourceranker.kts <project directory> [OPTIONS]
 
-OPTIONS:                                                                              +
-color       How many colors you are using and how many times                          +
-num         How many magical numbers you are using and how many times                 +
-class       How many lines each class has.                                            +
-<int>       Max limit. If <=0, shows all elements. Default is 10.                     +
+OPTIONS:
+color       How many colors you are using and how many times
+contrast    How many colors and how they compare to black and white
+num         How many magical numbers you are using and how many times
+class       How many lines each class has.
+help        Show this text.
+<int>       Max limit. If 0, shows all elements. Default is 10.
 
-EXAMPLE:                                                                              +
+EXAMPLE:
 $ ./resourceranker.kts documents/project color 10
-$ ./resourceranker.kts ../ class -1
+$ ./resourceranker.kts ../ class 0
+$ ./resourceranker.kts ../../ contrast 5
 $ ./resourceranker.kts ./ num
-$ ./resourceranker.kts ../ class color 0
-
+$ ./resourceranker.kts desktop class color 0
 ```
+
+ ![GIF](contrast.png?raw=true)
+
 
 Issue Tracking
 -------
